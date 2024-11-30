@@ -72,7 +72,7 @@ def home():
 # Route to display the maintenance form
 @app.route('/maintenanceForm', methods=['GET'])
 def maintenance_form():
-    return render_template('maintenanceForm.html')
+    return render_template('maintenanceRequest.html')
 
 # Route to display the amenities form
 @app.route('/amenitiesForm', methods=['GET'])
