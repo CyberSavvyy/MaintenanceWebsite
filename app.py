@@ -1,11 +1,11 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import sqlite3
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
-# Database setup function (already in your code)
+# Database setup function
 def setup_database():
     connection = None
     try:
@@ -69,6 +69,16 @@ setup_database()
 def home():
     return "Welcome to the Resident Satisfaction Dashboard!"
 
+# Route to display the maintenance form
+@app.route('/maintenanceForm', methods=['GET'])
+def maintenance_form():
+    return render_template('maintenanceForm.html')
+
+# Route to display the amenities form
+@app.route('/amenitiesForm', methods=['GET'])
+def amenities_form():
+    return render_template('amenitiesForm.html')
+
 # Route for submitting maintenance requests
 @app.route('/submitMaintenance', methods=['POST'])
 def submit_maintenance():
@@ -110,47 +120,6 @@ def submit_amenities():
     connection.close()
 
     return jsonify({'message': 'Amenities reservation submitted successfully!'})
-
-# Route for submitting complaints
-@app.route('/submitComplaints', methods=['POST'])
-def submit_complaint():
-    data = request.form
-    name = data['name']
-    unit = data['unit']
-    contact = data['contact']
-    complaint = data['complaint']
-
-    connection = sqlite3.connect('database.db')
-    cursor = connection.cursor()
-    cursor.execute('''
-        INSERT INTO complaints (name, unit, contact, complaint)
-        VALUES (?, ?, ?, ?)
-    ''', (name, unit, contact, complaint))
-    connection.commit()
-    connection.close()
-
-    return jsonify({'message': 'Complaint submitted successfully!'})
-
-@app.route('/submitParkingPermit', methods=['POST'])
-def submit_parking_permit():
-    data = request.form
-    name = data['name']
-    unit = data['unit']
-    vehicle_model = data['vehicle_model']
-    vehicle_plate = data['vehicle_plate']
-    permit_type = data['permit_type']
-
-    connection = sqlite3.connect('database.db')
-    cursor = connection.cursor()
-    cursor.execute('''
-        INSERT INTO parking_permits (name, unit, vehicle_model, vehicle_plate, permit_type)
-        VALUES (?, ?, ?, ?, ?)
-    ''', (name, unit, vehicle_model, vehicle_plate, permit_type))
-    connection.commit()
-    connection.close()
-
-    return jsonify({'message': 'Parking permit request submitted successfully!'})
-
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
