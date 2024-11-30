@@ -1,0 +1,123 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+  background-color: white; /* White background */
+  font-family: Arial, sans-serif;
+  color: #333333; /* Dark gray text */
+  text-align: center;
+  margin: 0;
+}
+
+/* Header styling */
+header {
+  display: flex;
+  justify-content: space-between; /* Space between website name and account icon */
+  align-items: center;
+  padding: 20px;
+  background-color: white;
+  border-bottom: 2px solid #20c997; /* Teal border below header */
+}
+
+/* Website name styling */
+.website-name {
+  color: #20c997; /* Teal color for website name */
+  font-size: 40px;
+  margin: 0;
+}
+
+/* Account menu styling */
+.account-menu {
+  position: relative;
+}
+
+.account-icon {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
+
+/* Dropdown menu styling */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0; /* Align dropdown to the right */
+  top: 40px; /* Position below the icon */
+  background-color: white;
+  border: 1px solid #155724; /* Darker teal border */
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 150px;
+  text-align: left;
+  margin-top: 10px;
+  z-index: 1;
+}
+
+.dropdown-menu a {
+  color: #333333; /* Dark gray text */
+  padding: 10px;
+  text-decoration: none;
+  display: block;
+  font-size: 14px;
+}
+
+.dropdown-menu a:hover {
+  background-color: #20c997; /* Light teal background on hover */
+  color: white;
+}
+
+/* Show dropdown when clicked */
+.show {
+  display: block;
+}
+
+/* Icon container styling */
+.icon-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 40px 20px 20px;
+  gap: 20px;
+}
+
+/* Styling each icon and text */
+.icon-container a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #333333; /* Dark gray text */
+  max-width: 200px;
+}
+
+/* Image styling with teal border */
+.icon-container img {
+  width: 200px;
+  height: 200px;
+  border: 2px solid #155724; /* Darker teal border around icons */
+  border-radius: 10px;
+  background-color: #20c997; /* Light teal background for icons */
+  padding: 10px; /* Padding inside icon for aesthetic spacing */
+}
+
+/* Text styling below icons */
+.icon-container p {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #333333; /* Dark gray text for icon labels */
+}
+
+/* Hover effect for icons */
+.icon-container a:hover img {
+  border-color: #20c997; /* Lighter teal border on hover */
+  background-color: #155724; /* Darker teal background on hover */
+}
+
+.icon-container a:hover p {
+  color: #155724; /* Darker teal text on hover */
+}

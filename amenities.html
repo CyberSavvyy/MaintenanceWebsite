@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amenities Reservation</title>
+    <link rel="stylesheet" href="amenities.css" />
+  </head>
+  <body>
+    <h1>Reserve an Amenity</h1>
+
+    <form action="/submitAmenities" method="post" class="amenities-form">
+      <!-- Resident Name -->
+      <label for="name">Your Name:</label>
+      <input type="text" id="name" name="name" required />
+
+      <!-- Unit Number -->
+      <label for="unit">Unit Number:</label>
+      <input type="text" id="unit" name="unit" required />
+
+      <!-- Email -->
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required />
+
+      <!-- Select Amenity -->
+      <label for="amenity">Choose an Amenity:</label>
+      <select id="amenity" name="amenity" required>
+        <option value="">Select an Amenity</option>
+        <option value="pool">Pool</option>
+        <option value="gym">Gym</option>
+        <option value="community_room">Community Room</option>
+        <option value="tennis_court">Tennis Court</option>
+      </select>
+
+      <!-- Date Selection -->
+      <label for="date">Reservation Date:</label>
+      <input type="date" id="date" name="date" required />
+
+      <!-- Time Selection -->
+      <label for="time">Reservation Time:</label>
+      <input type="time" id="time" name="time" required />
+
+      <!-- Additional Notes -->
+      <label for="notes">Additional Notes (Optional):</label>
+      <textarea
+        id="notes"
+        name="notes"
+        rows="4"
+        placeholder="Any specific requests or details"
+      ></textarea>
+
+      <!-- Submit Button -->
+      <input type="submit" value="Reserve Amenity" />
+    </form>
+  </body>
+</html>

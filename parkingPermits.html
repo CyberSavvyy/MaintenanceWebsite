@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parking Permits</title>
+    <link rel="stylesheet" href="parkingPermits.css" />
+  </head>
+  <body>
+    <h1>Parking Permits Application</h1>
+
+    <form action="/submitParkingPermit" method="post">
+      <!-- Label and input for resident name -->
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" name="name" required />
+      <br /><br />
+
+      <!-- Label and input for resident apartment number -->
+      <label for="unit">Unit Number:</label>
+      <input type="text" id="unit" name="unit" required />
+      <br /><br />
+
+      <!-- Label and select for permit type -->
+      <label for="permit-type">Permit Type:</label>
+      <select id="permit-type" name="permit_type" required>
+        <option value="">--Select Permit Type--</option>
+        <option value="car">Car</option>
+        <option value="motorcycle">Motorcycle</option>
+        <option value="truck">Truck</option>
+        <option value="other">Other</option>
+      </select>
+      <br /><br />
+
+      <!-- Label and input for vehicle make -->
+      <label for="vehicle-model">Vehicle Model:</label>
+      <input type="text" id="vehicle-model" name="vehicle_model" required />
+      <br /><br />
+
+      <!-- Label and input for vehicle license plate -->
+      <label for="vehicle-plate">License Plate:</label>
+      <input type="text" id="vehicle-plate" name="vehicle_plate" required />
+      <br /><br />
+
+      <!-- Submit button -->
+      <button type="submit">Submit Application</button>
+    </form>
+  </body>
+</html>

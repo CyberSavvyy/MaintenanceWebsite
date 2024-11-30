@@ -1,0 +1,92 @@
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* General styles */
+body {
+  background-color: white; /* White background */
+  font-family: Arial, sans-serif;
+  color: #333333; /* Dark Gray text */
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  color: #20c997; /* Teal header text */
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* Form styling */
+form {
+  background-color: #20c997; /* White form background */
+  border: 2px solid #155724; /* Darker Teal border */
+  border-radius: 50px;
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+label {
+  display: block;
+  font-size: 16px;
+  color: #333333; /* Dark Gray for labels */
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+input[type="text"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 2px solid #155724; /* Darker Teal border */
+  border-radius: 5px;
+  background-color: white; /* White background for input fields */
+  color: #155724; /* Darker Teal text for input fields */
+}
+
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border: 2px solid #20c997; /* Teal border when focused */
+}
+
+textarea {
+  resize: vertical; /* Allow vertical resizing of textarea */
+}
+
+button {
+  background-color: #155724; /* Darker Teal button */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #20c997; /* Lighter Teal on hover */
+  color: white;
+}
+
+/* Aligning form elements */
+form input[type="text"],
+form select,
+form textarea,
+form button {
+  font-size: 16px;
+}
+
+form button {
+  margin-top: 10px;
+  width: 100%;
+}

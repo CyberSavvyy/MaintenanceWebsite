@@ -1,0 +1,76 @@
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: white; /* White background */
+  color: #333333; /* Dark gray text */
+  text-align: center;
+  margin: auto;
+}
+
+/* Header Styling */
+h1 {
+  color: #20c997; /* Teal header text */
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Complaints Form Styling */
+.complaints-form {
+  background-color: #20c997; /* Teal background */
+  padding: 20px;
+  border-radius: 50px; /* Rounded corners */
+  max-width: 400px;
+  margin: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow */
+  border: 2px solid #155724; /* Darker teal border */
+}
+
+/* Label Styling */
+.complaints-form label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333333; /* Gray label text */
+  font-weight: bold;
+}
+
+/* Input Fields */
+.complaints-form input[type="text"],
+.complaints-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0 20px 0;
+  border: 2px solid #155724; /* Darker teal border */
+  border-radius: 10px;
+  background-color: white; /* White input background */
+  color: #155724; /* Darker teal text */
+}
+
+/* Focus Styling for Input Fields */
+.complaints-form input[type="text"]:focus,
+.complaints-form textarea:focus {
+  outline: none;
+  border-color: #20c997; /* Teal border on focus */
+}
+
+/* Submit Button */
+.complaints-form input[type="submit"] {
+  background-color: #155724; /* Darker teal background */
+  color: white; /* White text */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Submit Button Hover Effect */
+.complaints-form input[type="submit"]:hover {
+  background-color: #20c997; /* Lighter teal on hover */
+  color: white;
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Complaints</title>
+    <link rel="stylesheet" href="complaints.css" />
+  </head>
+  <body>
+    <h1>Submit a Complaint</h1>
+
+    <form
+      action="http://127.0.0.1:5000/submitComplaints"
+      method="post"
+      class="complaints-form"
+    >
+      <!-- Resident Name -->
+      <label for="name">Your Name:</label>
+      <input type="text" id="name" name="name" required />
+
+      <!-- Unit Number -->
+      <label for="unit">Unit Number:</label>
+      <input type="text" id="unit" name="unit" required />
+
+      <!-- Contact Information -->
+      <label for="contact">Contact Information:</label>
+      <input
+        type="text"
+        id="contact"
+        name="contact"
+        placeholder="Email or Phone"
+        required
+      />
+
+      <!-- Complaint Details -->
+      <label for="complaint">Complaint Details:</label>
+      <textarea
+        id="complaint"
+        name="complaint"
+        rows="5"
+        placeholder="Describe your issue"
+        required
+      ></textarea>
+
+      <!-- Submit Button -->
+      <input type="submit" value="Submit Complaint" />
+    </form>
+  </body>
+</html>
