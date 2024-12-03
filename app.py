@@ -30,17 +30,8 @@ def setup_database():
             unit TEXT NOT NULL,
             amenity TEXT NOT NULL,
             reservation_date TEXT NOT NULL,
-            reservation_time TEXT NOT NULL
-        )
-        ''')
-
-        cursor.execute('''
-        CREATE TABLE IF NOT EXISTS complaints (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            unit TEXT NOT NULL,
-            contact TEXT NOT NULL,
-            complaint TEXT NOT NULL
+            reservation_time TEXT NOT NULL,
+            notes TEXT NOT NULL
         )
         ''')
 
@@ -52,6 +43,16 @@ def setup_database():
             vehicle_model TEXT NOT NULL,
             vehicle_plate TEXT NOT NULL,
             permit_type TEXT NOT NULL
+        )
+        ''')
+
+        cursor.execute('''
+        CREATE TABLE IF NOT EXISTS complaints (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            unit TEXT NOT NULL,
+            contact TEXT NOT NULL,
+            complaint TEXT NOT NULL
         )
         ''')
 
@@ -117,13 +118,14 @@ def submit_amenities():
     amenity = data['amenity']
     reservation_date = data['reservation_date']
     reservation_time = data['reservation_time']
+    notes = data['notes']
 
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
     cursor.execute('''
         INSERT INTO amenities_reservations (name, unit, amenity, reservation_date, reservation_time)
         VALUES (?, ?, ?, ?, ?)
-    ''', (name, unit, amenity, reservation_date, reservation_time))
+    ''', (name, unit, amenity, reservation_date, reservation_time, notes))
     connection.commit()
     connection.close()
 
