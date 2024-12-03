@@ -100,9 +100,9 @@ def submit_maintenance():
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
     cursor.execute('''
-        INSERT INTO maintenance_requests (name, unit, issue, date, priority)
-        VALUES (?, ?, ?, ?, ?)
-    ''', (name, unit, issue, date, priority))
+        INSERT INTO maintenance_requests (name, unit, issue, priority)
+        VALUES (?, ?, ?, ?)
+    ''', (name, unit, issue, priority))
     connection.commit()
     connection.close()
 
