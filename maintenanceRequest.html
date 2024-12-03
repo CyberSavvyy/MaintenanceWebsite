@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Maintenance Work Orders</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='maintenanceRequest.css') }}"
+    />
+  </head>
+  <body>
+    <h1>Submit a Maintenance Work Order</h1>
+
+    <form action="/submitMaintenance" method="post">
+      <label for="name">Your Name:</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="unit"> Apartment Number:</label>
+      <input type="text" id="unit" name="unit" required />
+
+      <label for="issue">Describe the Issue:</label>
+      <textarea id="issue" name="issue" rows="4" required></textarea>
+
+      <label for="priority">Priority:</label>
+      <select id="priority" name="priority">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+
+      <input type="submit" value="Submit Work Order" />
+    </form>
+  </body>
+</html>

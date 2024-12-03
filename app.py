@@ -100,6 +100,9 @@ def submit_maintenance():
 
     print(f"Received: name={name}, unit={unit}, issue={issue}, priority={priority}")  # Debugging log
 
+    db_path = os.path.abspath('database.db')  # Log the database path
+    print(f"Using database file at: {db_path}")
+
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
     cursor.execute('''

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Management Portal</title>
+  </head>
+  <body>
+    <header>
+      <h1>Management Portal</h1>
+    </header>
+
+    <main>
+      <!-- Navigation for ticket categories -->
+      <nav>
+        <button onclick="showTickets('maintenance')">
+          Maintenance Requests
+        </button>
+        <button onclick="showTickets('amenities')">
+          Amenities Reservations
+        </button>
+        <button onclick="showTickets('complaints')">Complaints</button>
+        <button onclick="showTickets('parking')">Parking Permits</button>
+      </nav>
+
+      <!-- Ticket display section -->
+      <section id="ticket-display">
+        <h2>Tickets</h2>
+        <table id="ticket-table" border="1">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Unit</th>
+              <th>Details</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Rows will be dynamically generated -->
+            <tr>
+              <td colspan="6">Select a category to view tickets</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <script>
+      // Function to handle displaying tickets by category (placeholder)
+      function showTickets(category) {
+        document.getElementById("ticket-table").tBodies[0].innerHTML = `
+                <tr>
+                    <td colspan="6">Loading ${category} tickets...</td>
+                </tr>`;
+      }
+    </script>
+  </body>
+</html>
