@@ -85,7 +85,7 @@ def parkingPermitsForm():
     return render_template('parkingPermits.html')
 
 # Rout to display the parking permits form
-@app.route('/complaintsForm.html', methods=['GET'])
+@app.route('/complaintsForm', methods=['GET'])
 def complaintsForm():
     return render_template('complaints.html')
 
@@ -97,6 +97,8 @@ def submit_maintenance():
     unit = data['unit']
     issue = data['issue']
     priority = data['priority']
+
+    print(f"Received: name={name}, unit={unit}, issue={issue}, priority={priority}")  # Debugging log
 
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
