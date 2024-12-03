@@ -123,7 +123,7 @@ def submit_amenities():
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
     cursor.execute('''
-        INSERT INTO amenities_reservations (name, unit, amenity, reservation_date, reservation_time)
+        INSERT INTO amenities_reservations (name, unit, amenity, reservation_date, reservation_time, notes)
         VALUES (?, ?, ?, ?, ?, ?)
     ''', (name, unit, amenity, reservation_date, reservation_time, notes))
     connection.commit()
