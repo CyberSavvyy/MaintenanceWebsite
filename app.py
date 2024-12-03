@@ -124,7 +124,7 @@ def submit_amenities():
     cursor = connection.cursor()
     cursor.execute('''
         INSERT INTO amenities_reservations (name, unit, amenity, reservation_date, reservation_time)
-        VALUES (?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?)
     ''', (name, unit, amenity, reservation_date, reservation_time, notes))
     connection.commit()
     connection.close()
