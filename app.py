@@ -19,7 +19,6 @@ def setup_database():
             name TEXT NOT NULL,
             unit TEXT NOT NULL,
             issue TEXT NOT NULL,
-            date TEXT NOT NULL,
             priority TEXT NOT NULL
         )
         ''')
@@ -96,7 +95,6 @@ def submit_maintenance():
     name = data['name']
     unit = data['unit']
     issue = data['issue']
-    date = data['date']
     priority = data['priority']
 
     connection = sqlite3.connect('database.db')
