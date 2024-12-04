@@ -70,27 +70,59 @@ setup_database()
 def home():
     return "Welcome to the Resident Satisfaction Dashboard!"
 
-# Route to display the maintenance form
+# Route to display the management portal
+@app.route('/management', methods=['GET'])
+def management_portal():
+    return render_template('management.html')
+
+# Route to fetch tickets for a specific category
+@app.route('/getTickets/<category>', methods=['GET'])
+def get_tickets(category):
+    connection = sqlite3.connect('database.db')
+    cursor = connection.cursor()
+
+    # Map category to the correct table
+    table_mapping = {
+        "maintenance": "maintenance_requests",
+        "amenities": "amenities_reservations",
+        "complaints": "complaints",
+        "parking": "parking_permits"
+    }
+
+    if category not in table_mapping:
+        return jsonify({"error": "Invalid category"}), 400
+
+    table_name = table_mapping[category]
+    query = f"SELECT * FROM {table_name}"
+    cursor.execute(query)
+    tickets = cursor.fetchall()
+    connection.close()
+
+    # Convert to JSON-friendly format
+    tickets_list = [
+        {"id": row[0], "name": row[1], "unit": row[2], "details": row[3:], "status": "Pending"}
+        for row in tickets
+    ]
+    return jsonify(tickets_list)
+
+# Other routes for forms
 @app.route('/maintenanceForm', methods=['GET'])
 def maintenance_form():
     return render_template('maintenanceRequest.html')
 
-# Route to display the amenities form
 @app.route('/amenitiesForm', methods=['GET'])
 def amenities_form():
     return render_template('amenities.html')
 
-# Route to display the parking permits form
 @app.route('/parkingPermitsForm', methods=['GET'])
 def parkingPermitsForm():
     return render_template('parkingPermits.html')
 
-# Rout to display the parking permits form
 @app.route('/complaintsForm', methods=['GET'])
 def complaintsForm():
     return render_template('complaints.html')
 
-# Route for submitting maintenance requests
+# Routes for submitting forms
 @app.route('/submitMaintenance', methods=['POST'])
 def submit_maintenance():
     data = request.form
@@ -100,10 +132,6 @@ def submit_maintenance():
     priority = data['priority']
 
     print(f"Received: name={name}, unit={unit}, issue={issue}, priority={priority}")  # Debugging log
-
-    db_path = os.path.abspath('database.db')  # Log the database path
-    print(f"Using database file at: {db_path}")
-
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
     cursor.execute('''
@@ -115,7 +143,6 @@ def submit_maintenance():
 
     return jsonify({'message': 'Maintenance request submitted successfully!'})
 
-# Route for submitting amenities reservations
 @app.route('/submitAmenities', methods=['POST'])
 def submit_amenities():
     data = request.form
@@ -157,7 +184,6 @@ def submit_parking_permit():
 
     return jsonify({'message': 'Parking permit request submitted successfully!'})
 
-# Route for submitting complaints
 @app.route('/submitComplaints', methods=['POST'])
 def submit_complaint():
     data = request.form

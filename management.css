@@ -1,0 +1,122 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4; /* Light gray background */
+  color: #333; /* Dark gray text */
+  margin: 0;
+  padding: 0;
+}
+
+/* Header Styling */
+header {
+  background-color: #20c997; /* Teal */
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+}
+
+header h1 {
+  font-size: 32px;
+  margin: 0;
+}
+
+/* Navigation Styling */
+nav {
+  text-align: center;
+  margin: 20px 0;
+}
+
+nav button {
+  background-color: #20c997; /* Teal */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+nav button:hover {
+  background-color: #17a589; /* Darker teal on hover */
+}
+
+/* Ticket Display Section */
+#ticket-display {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#ticket-display h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #20c997;
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+table th {
+  background-color: #20c997; /* Teal header background */
+  color: white;
+  font-weight: bold;
+}
+
+table tr:nth-child(even) {
+  background-color: #f9f9f9; /* Light gray for even rows */
+}
+
+table tr:hover {
+  background-color: #f1f1f1; /* Slightly darker gray on hover */
+}
+
+table td:last-child {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+table button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+table button.resolve {
+  background-color: #28a745; /* Green for resolve */
+  color: white;
+}
+
+table button.delete {
+  background-color: #dc3545; /* Red for delete */
+  color: white;
+}
+
+table button:hover {
+  opacity: 0.9; /* Slight transparency on hover */
+}
