@@ -121,3 +121,19 @@ header {
 .icon-container a:hover p {
   color: #155724; /* Darker teal text on hover */
 }
+
+/* Footer Styling */
+footer {
+  background-color: #20c997; /* Teal background */
+  color: white; /* White text */
+  text-align: center;
+  padding: 20px;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+footer .footer-content p {
+  margin: 5px 0;
+  font-size: 14px;
+}
