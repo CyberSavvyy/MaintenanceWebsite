@@ -70,6 +70,28 @@ setup_database()
 def home():
     return "Welcome to the Resident Satisfaction Dashboard!"
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        
+        # Simple authentication
+        if email == 'admin@example.com' and password == 'password':
+            return redirect(url_for('index_page'))
+        else:
+            return "Invalid credentials, please try again!", 401
+
+    return render_template('login.html')
+
+@app.route('/index')
+def index_page():
+    return render_template('index.html')
+
+@app.route('/management')
+def management_portal():
+    return render_template('management.html')
+
 # Route to display the management portal
 @app.route('/management', methods=['GET'])
 def management_portal():
