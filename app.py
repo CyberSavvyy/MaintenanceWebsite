@@ -106,6 +106,15 @@ def get_tickets(category):
     return jsonify(tickets_list)
 
 # Other routes for forms
+@app.route('/login', methods=['GET'])
+def login_page():
+    return render_template('login.html')
+
+# Route to display the resident portal (index page)
+@app.route('/index', methods=['GET'])
+def index_page():
+    return render_template('index.html')
+
 @app.route('/maintenanceForm', methods=['GET'])
 def maintenance_form():
     return render_template('maintenanceRequest.html')

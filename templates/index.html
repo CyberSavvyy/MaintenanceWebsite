@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Resident Portal</title>
-    <link rel="stylesheet" href="main.css" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='main.css') }}"
+    />
   </head>
   <body>
     <!-- Header with website name and account icon on the right -->
@@ -12,39 +15,47 @@
       <h1 class="website-name">HomeMate</h1>
       <div class="account-menu">
         <img
-          src="Pictures/Resident Portal Icon.svg"
+          src="{{ url_for('static', filename='Pictures/Resident Portal Icon.svg') }}"
           alt="Resident Portal"
           class="account-icon"
           onclick="toggleDropdown()"
         />
         <div class="dropdown-menu" id="dropdownMenu">
-          <a href="profile.html">Profile</a>
-          <a href="accountSettings.html">Account Settings</a>
-          <a href="login.html">Logout</a>
-          <!-- Logout option -->
+          <!-- Updated links -->
+          <a href="/management">Management Portal</a>
+          <a href="/login">Logout</a>
         </div>
       </div>
     </header>
 
     <!-- Icon container for main features -->
     <div class="icon-container">
-      <a href="maintenanceRequest.html">
+      <a href="/maintenanceForm">
         <img
-          src="Pictures/Maintenance Requests Icon.svg"
+          src="{{ url_for('static', filename='Pictures/Maintenance Requests Icon.svg') }}"
           alt="Maintenance Request"
         />
         <p>Maintenance Request</p>
       </a>
-      <a href="parkingPermits.html">
-        <img src="Pictures/Parking Permits Icon.svg" alt="Parking Permits" />
+      <a href="/parkingPermitsForm">
+        <img
+          src="{{ url_for('static', filename='Pictures/Parking Permits Icon.svg') }}"
+          alt="Parking Permits"
+        />
         <p>Parking Permits</p>
       </a>
-      <a href="amenities.html">
-        <img src="Pictures/Amenities Icon.svg" alt="Amenities Reservation" />
+      <a href="/amenitiesForm">
+        <img
+          src="{{ url_for('static', filename='Pictures/Amenities Icon.svg') }}"
+          alt="Amenities Reservation"
+        />
         <p>Amenities Reservation</p>
       </a>
-      <a href="complaints.html">
-        <img src="Pictures/Complaints Icon.svg" alt="Complaints" />
+      <a href="/complaintsForm">
+        <img
+          src="{{ url_for('static', filename='Pictures/Complaints Icon.svg') }}"
+          alt="Complaints"
+        />
         <p>Complaints</p>
       </a>
     </div>
