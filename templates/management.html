@@ -10,178 +10,70 @@
     />
   </head>
   <body>
-    <h1>Management Portal</h1>
+    <header>
+      <h1>Management Portal</h1>
+    </header>
 
-    <!-- Maintenance Requests -->
-    <h2>Maintenance Requests</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Unit</th>
-          <th>Issue</th>
-          <th>Priority</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for ticket in tickets if ticket.category == 'maintenance_requests' %}
-        <tr>
-          <td>{{ ticket.name }}</td>
-          <td>{{ ticket.unit }}</td>
-          <td>{{ ticket.details }}</td>
-          <td>{{ ticket.priority }}</td>
-          <td class="status">{{ ticket.status }}</td>
-          <td>
-            <button
-              class="resolve-btn"
-              data-id="{{ ticket.id }}"
-              data-category="maintenance_requests"
-              {% if ticket.status == 'resolved' %} disabled {% endif %}
-            >
-              Mark as Resolved
-            </button>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <main>
+      <!-- Navigation for ticket categories -->
+      <nav>
+        <button onclick="loadTickets('maintenance')">
+          Maintenance Requests
+        </button>
+        <button onclick="loadTickets('amenities')">
+          Amenities Reservations
+        </button>
+        <button onclick="loadTickets('complaints')">Complaints</button>
+        <button onclick="loadTickets('parking')">Parking Permits</button>
+      </nav>
 
-    <!-- Amenities Reservations -->
-    <h2>Amenities Reservations</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Unit</th>
-          <th>Amenity</th>
-          <th>Reservation Date</th>
-          <th>Reservation Time</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for ticket in tickets if ticket.category == 'amenities_reservations' %}
-        <tr>
-          <td>{{ ticket.name }}</td>
-          <td>{{ ticket.unit }}</td>
-          <td>{{ ticket.details }}</td>
-          <td>{{ ticket.priority }}</td>
-          <td class="status">{{ ticket.status }}</td>
-          <td>
-            <button
-              class="resolve-btn"
-              data-id="{{ ticket.id }}"
-              data-category="amenities_reservations"
-              {% if ticket.status == 'resolved' %} disabled {% endif %}
-            >
-              Mark as Resolved
-            </button>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+      <!-- Ticket display section -->
+      <section id="ticket-display">
+        <h2>Tickets</h2>
+        <table id="ticket-table" border="1">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Unit</th>
+              <th>Details</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="5">Select a category to view tickets</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
 
-    <!-- Parking Permits -->
-    <h2>Parking Permits</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Unit</th>
-          <th>Vehicle Model</th>
-          <th>Vehicle Plate</th>
-          <th>Permit Type</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for ticket in tickets if ticket.category == 'parking_permits' %}
-        <tr>
-          <td>{{ ticket.name }}</td>
-          <td>{{ ticket.unit }}</td>
-          <td>{{ ticket.details }}</td>
-          <td>{{ ticket.priority }}</td>
-          <td class="status">{{ ticket.status }}</td>
-          <td>
-            <button
-              class="resolve-btn"
-              data-id="{{ ticket.id }}"
-              data-category="parking_permits"
-              {% if ticket.status == 'resolved' %} disabled {% endif %}
-            >
-              Mark as Resolved
-            </button>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-
-    <!-- Complaints -->
-    <h2>Complaints</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Unit</th>
-          <th>Complaint</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for ticket in tickets if ticket.category == 'complaints' %}
-        <tr>
-          <td>{{ ticket.name }}</td>
-          <td>{{ ticket.unit }}</td>
-          <td>{{ ticket.details }}</td>
-          <td class="status">{{ ticket.status }}</td>
-          <td>
-            <button
-              class="resolve-btn"
-              data-id="{{ ticket.id }}"
-              data-category="complaints"
-              {% if ticket.status == 'resolved' %} disabled {% endif %}
-            >
-              Mark as Resolved
-            </button>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-
-    <!-- JavaScript for Handling Button Clicks -->
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const resolveButtons = document.querySelectorAll(".resolve-btn");
+      async function loadTickets(category) {
+        const response = await fetch(`/getTickets/${category}`);
+        const tickets = await response.json();
 
-        resolveButtons.forEach((button) => {
-          button.addEventListener("click", () => {
-            const ticketId = button.getAttribute("data-id");
-            const category = button.getAttribute("data-category");
+        const tableBody = document.querySelector("#ticket-table tbody");
+        tableBody.innerHTML = ""; // Clear existing rows
 
-            fetch("/resolveTicket", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ id: ticketId, category: category }),
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                alert(data.message);
-                button.closest("tr").querySelector(".status").innerText =
-                  "resolved";
-                button.disabled = true; // Disable the button
-              })
-              .catch((error) => console.error("Error:", error));
-          });
+        if (tickets.length === 0) {
+          tableBody.innerHTML = `<tr><td colspan="5">No tickets found for ${category}</td></tr>`;
+          return;
+        }
+
+        tickets.forEach((ticket) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+                    <td>${ticket.id}</td>
+                    <td>${ticket.name}</td>
+                    <td>${ticket.unit}</td>
+                    <td>${ticket.details.join(", ")}</td>
+                    <td>${ticket.status}</td>
+                `;
+          tableBody.appendChild(row);
         });
-      });
+      }
     </script>
   </body>
 </html>

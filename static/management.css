@@ -1,131 +1,122 @@
-/* Style for all tables */
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4; /* Light gray background */
+  color: #333; /* Dark gray text */
+  margin: 0;
+  padding: 0;
+}
+
+/* Header Styling */
+header {
+  background-color: #20c997; /* Teal */
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+}
+
+header h1 {
+  font-size: 32px;
+  margin: 0;
+}
+
+/* Navigation Styling */
+nav {
+  text-align: center;
+  margin: 20px 0;
+}
+
+nav button {
+  background-color: #20c997; /* Teal */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+nav button:hover {
+  background-color: #17a589; /* Darker teal on hover */
+}
+
+/* Ticket Display Section */
+#ticket-display {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#ticket-display h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #20c997;
+}
+
+/* Table Styling */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
-  text-align: left; /* Align text to the left for consistency */
+  margin-top: 20px;
 }
 
-/* Style for table headers */
-table th {
-  border: 1px solid #ddd;
-  padding: 10px;
-  background-color: #f4f4f4;
-  text-align: left; /* Align header text to the left */
-}
-
-/* Style for table rows */
-table td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  vertical-align: middle; /* Vertically center content */
-}
-
-/* Set specific column widths */
-table th:nth-child(1),
-table td:nth-child(1) {
-  width: 15%; /* Adjust for 'Name' column */
-}
-
-table th:nth-child(2),
-table td:nth-child(2) {
-  width: 10%; /* Adjust for 'Unit' column */
-}
-
-table th:nth-child(3),
-table td:nth-child(3) {
-  width: 30%; /* Adjust for 'Details' or 'Amenity' */
-}
-
-table th:nth-child(4),
-table td:nth-child(4) {
-  width: 15%; /* Adjust for 'Reservation Date' or 'Priority' */
-}
-
-table th:nth-child(5),
-table td:nth-child(5) {
-  width: 10%; /* Adjust for 'Status' */
-}
-
-table th:nth-child(6),
-table td:nth-child(6) {
-  width: 20%; /* Adjust for 'Actions' */
-}
-
-/* Styling for 'Mark as Resolved' button */
-button.resolve-btn {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-button.resolve-btn:disabled {
-  background-color: #ddd;
-  color: #aaa;
-  cursor: not-allowed;
-}
-
-/* Add a hover effect to rows for better visibility */
-table tr:hover {
-  background-color: #f9f9f9;
-}
-
-/* Ensure tables have uniform column widths */
-table {
-  table-layout: fixed; /* Ensures consistent column widths */
-  width: 100%; /* Use full width of the container */
-  border-collapse: collapse; /* Collapse borders for cleaner appearance */
-}
-
-/* Maintain consistent widths across all tables */
 table th,
 table td {
-  border: 1px solid #ddd; /* Match existing border styles */
-  padding: 10px; /* Consistent padding */
-  text-align: left; /* Keep text left-aligned */
-  vertical-align: middle; /* Center vertically within cells */
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
 }
 
-/* Adjust column widths for specific fields */
-table th:nth-child(1),
-table td:nth-child(1) {
-  width: 15%; /* Name column */
+table th {
+  background-color: #20c997; /* Teal header background */
+  color: white;
+  font-weight: bold;
 }
 
-table th:nth-child(2),
-table td:nth-child(2) {
-  width: 10%; /* Unit column */
+table tr:nth-child(even) {
+  background-color: #f9f9f9; /* Light gray for even rows */
 }
 
-table th:nth-child(3),
-table td:nth-child(3) {
-  width: 35%; /* Details column */
-}
-
-table th:nth-child(4),
-table td:nth-child(4) {
-  width: 15%; /* Priority or Reservation Date */
-}
-
-table th:nth-child(5),
-table td:nth-child(5) {
-  width: 10%; /* Status */
-}
-
-table th:nth-child(6),
-table td:nth-child(6) {
-  width: 15%; /* Actions */
-}
-
-/* Ensure no overlapping text in cells */
-table td {
-  word-wrap: break-word; /* Break long text into multiple lines if necessary */
-}
-
-/* Retain hover effects and background colors */
 table tr:hover {
-  background-color: #f9f9f9; /* Optional: lighter hover background */
+  background-color: #f1f1f1; /* Slightly darker gray on hover */
+}
+
+table td:last-child {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+table button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+table button.resolve {
+  background-color: #28a745; /* Green for resolve */
+  color: white;
+}
+
+table button.delete {
+  background-color: #dc3545; /* Red for delete */
+  color: white;
+}
+
+table button:hover {
+  opacity: 0.9; /* Slight transparency on hover */
 }

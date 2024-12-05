@@ -4,7 +4,7 @@ import sqlite3
 import os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app)  # Enable CORS for all routes
 
 # Database setup function
 def setup_database():
@@ -13,15 +13,14 @@ def setup_database():
         connection = sqlite3.connect('database.db')
         cursor = connection.cursor()
 
-        # Table creation with fixed commas
+        # Table creation statements
         cursor.execute('''
         CREATE TABLE IF NOT EXISTS maintenance_requests (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             unit TEXT NOT NULL,
             issue TEXT NOT NULL,
-            priority TEXT NOT NULL,
-            status TEXT DEFAULT 'open'
+            priority TEXT NOT NULL
         )
         ''')
 
@@ -33,8 +32,7 @@ def setup_database():
             amenity TEXT NOT NULL,
             reservation_date TEXT NOT NULL,
             reservation_time TEXT NOT NULL,
-            notes TEXT NOT NULL,
-            status TEXT DEFAULT 'open'
+            notes TEXT NOT NULL
         )
         ''')
 
@@ -45,8 +43,7 @@ def setup_database():
             unit TEXT NOT NULL,
             vehicle_model TEXT NOT NULL,
             vehicle_plate TEXT NOT NULL,
-            permit_type TEXT NOT NULL,
-            status TEXT DEFAULT 'open'
+            permit_type TEXT NOT NULL
         )
         ''')
 
@@ -56,8 +53,7 @@ def setup_database():
             name TEXT NOT NULL,
             unit TEXT NOT NULL,
             contact TEXT NOT NULL,
-            complaint TEXT NOT NULL,
-            status TEXT DEFAULT 'open'
+            complaint TEXT NOT NULL
         )
         ''')
 
@@ -77,50 +73,15 @@ def home():
 # Route to display the management portal
 @app.route('/management', methods=['GET'])
 def management_portal():
+    return render_template('management.html')
+
+# Route to fetch tickets for a specific category
+@app.route('/getTickets/<category>', methods=['GET'])
+def get_tickets(category):
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
 
-    # Fetch tickets from all tables
-    cursor.execute('SELECT * FROM maintenance_requests')
-    maintenance_tickets = [
-        {"id": row[0], "name": row[1], "unit": row[2], "details": row[3], "priority": row[4], "status": row[5], "category": "maintenance_requests"}
-        for row in cursor.fetchall()
-    ]
-
-    cursor.execute('SELECT * FROM amenities_reservations')
-    amenities_tickets = [
-        {"id": row[0], "name": row[1], "unit": row[2], "details": row[3], "priority": "N/A", "status": row[7], "category": "amenities_reservations"}
-        for row in cursor.fetchall()
-    ]
-
-    cursor.execute('SELECT * FROM parking_permits')
-    parking_tickets = [
-        {"id": row[0], "name": row[1], "unit": row[2], "details": f"Vehicle: {row[3]}, Plate: {row[4]}, Type: {row[5]}", "priority": "N/A", "status": row[6], "category": "parking_permits"}
-        for row in cursor.fetchall()
-    ]
-
-    cursor.execute('SELECT * FROM complaints')
-    complaints_tickets = [
-        {"id": row[0], "name": row[1], "unit": row[2], "details": row[4], "priority": "N/A", "status": row[5], "category": "complaints"}
-        for row in cursor.fetchall()
-    ]
-
-    connection.close()
-
-    # Combine all tickets
-    all_tickets = maintenance_tickets + amenities_tickets + parking_tickets + complaints_tickets
-
-    # Render the management page with tickets
-    return render_template('management.html', tickets=all_tickets)
-
-# Route to mark tickets as resolved
-@app.route('/resolveTicket', methods=['POST'])
-def resolve_ticket():
-    data = request.json
-    ticket_id = data.get('id')
-    category = data.get('category')
-
-    # Map category to table name
+    # Map category to the correct table
     table_mapping = {
         "maintenance": "maintenance_requests",
         "amenities": "amenities_reservations",
@@ -131,20 +92,18 @@ def resolve_ticket():
     if category not in table_mapping:
         return jsonify({"error": "Invalid category"}), 400
 
-    connection = sqlite3.connect('database.db')
-    cursor = connection.cursor()
-
-    # Update the status to 'resolved'
     table_name = table_mapping[category]
-    cursor.execute(f'''
-        UPDATE {table_name}
-        SET status = 'resolved'
-        WHERE id = ?
-    ''', (ticket_id,))
-    connection.commit()
+    query = f"SELECT * FROM {table_name}"
+    cursor.execute(query)
+    tickets = cursor.fetchall()
     connection.close()
 
-    return jsonify({"message": "Ticket marked as resolved!"})
+    # Convert to JSON-friendly format
+    tickets_list = [
+        {"id": row[0], "name": row[1], "unit": row[2], "details": row[3:], "status": "Pending"}
+        for row in tickets
+    ]
+    return jsonify(tickets_list)
 
 # Other routes for forms
 @app.route('/maintenanceForm', methods=['GET'])
@@ -172,6 +131,7 @@ def submit_maintenance():
     issue = data['issue']
     priority = data['priority']
 
+    print(f"Received: name={name}, unit={unit}, issue={issue}, priority={priority}")  # Debugging log
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
     cursor.execute('''
