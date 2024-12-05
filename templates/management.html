@@ -10,70 +10,67 @@
     />
   </head>
   <body>
-    <header>
-      <h1>Management Portal</h1>
-    </header>
+    <h1>Management Portal</h1>
 
-    <main>
-      <!-- Navigation for ticket categories -->
-      <nav>
-        <button onclick="loadTickets('maintenance')">
-          Maintenance Requests
+    <!-- Container for tickets -->
+    <div id="tickets-container">
+      <!-- Example ticket layout -->
+      {% for ticket in tickets %}
+      <div class="ticket">
+        <p><strong>Name:</strong> {{ ticket.name }}</p>
+        <p><strong>Unit:</strong> {{ ticket.unit }}</p>
+        <p><strong>Details:</strong> {{ ticket.details }}</p>
+        <p><strong>Priority:</strong> {{ ticket.priority }}</p>
+        <p>
+          <strong>Status:</strong>
+          <span class="status">{{ ticket.status }}</span>
+        </p>
+        <button
+          class="resolve-btn"
+          data-id="{{ ticket.id }}"
+          data-category="{{ ticket.category }}"
+          {% if ticket.status == 'resolved' %} disabled {% endif %}
+        >
+          Mark as Resolved
         </button>
-        <button onclick="loadTickets('amenities')">
-          Amenities Reservations
-        </button>
-        <button onclick="loadTickets('complaints')">Complaints</button>
-        <button onclick="loadTickets('parking')">Parking Permits</button>
-      </nav>
+      </div>
+      {% endfor %}
+    </div>
 
-      <!-- Ticket display section -->
-      <section id="ticket-display">
-        <h2>Tickets</h2>
-        <table id="ticket-table" border="1">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Unit</th>
-              <th>Details</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td colspan="5">Select a category to view tickets</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-    </main>
-
+    <!-- JavaScript to handle the "Mark as Resolved" functionality -->
     <script>
-      async function loadTickets(category) {
-        const response = await fetch(`/getTickets/${category}`);
-        const tickets = await response.json();
+      document.addEventListener('DOMContentLoaded', () => {
+        const resolveButtons = document.querySelectorAll('.resolve-btn');
 
-        const tableBody = document.querySelector("#ticket-table tbody");
-        tableBody.innerHTML = ""; // Clear existing rows
+        resolveButtons.forEach((button) => {
+          button.addEventListener('click', () => {
+            const ticketId = button.getAttribute('data-id');
+            const category = button.getAttribute('data-category');
 
-        if (tickets.length === 0) {
-          tableBody.innerHTML = `<tr><td colspan="5">No tickets found for ${category}</td></tr>`;
-          return;
-        }
-
-        tickets.forEach((ticket) => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-                    <td>${ticket.id}</td>
-                    <td>${ticket.name}</td>
-                    <td>${ticket.unit}</td>
-                    <td>${ticket.details.join(", ")}</td>
-                    <td>${ticket.status}</td>
-                `;
-          tableBody.appendChild(row);
+            fetch('/resolveTicket', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ id: ticketId, category: category }),
+            })
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+                return response.json();
+              })
+              .then((data) => {
+                alert(data.message);
+                button.parentElement.querySelector('.status').innerText =
+                  'resolved';
+                button.disabled = true; // Disable the button after resolving
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+                alert('Failed to resolve ticket. Please try again.');
+              });
+          });
         });
-      }
+      });
     </script>
   </body>
 </html>
