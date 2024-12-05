@@ -13,14 +13,15 @@ def setup_database():
         connection = sqlite3.connect('database.db')
         cursor = connection.cursor()
 
-        # Table creation statements
+        # Table creation statements with status field
         cursor.execute('''
         CREATE TABLE IF NOT EXISTS maintenance_requests (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             unit TEXT NOT NULL,
             issue TEXT NOT NULL,
-            priority TEXT NOT NULL
+            priority TEXT NOT NULL,
+            status TEXT DEFAULT 'open'
         )
         ''')
 
@@ -32,7 +33,8 @@ def setup_database():
             amenity TEXT NOT NULL,
             reservation_date TEXT NOT NULL,
             reservation_time TEXT NOT NULL,
-            notes TEXT NOT NULL
+            notes TEXT NOT NULL,
+            status TEXT DEFAULT 'open'
         )
         ''')
 
@@ -43,7 +45,8 @@ def setup_database():
             unit TEXT NOT NULL,
             vehicle_model TEXT NOT NULL,
             vehicle_plate TEXT NOT NULL,
-            permit_type TEXT NOT NULL
+            permit_type TEXT NOT NULL,
+            status TEXT DEFAULT 'open'
         )
         ''')
 
@@ -53,7 +56,8 @@ def setup_database():
             name TEXT NOT NULL,
             unit TEXT NOT NULL,
             contact TEXT NOT NULL,
-            complaint TEXT NOT NULL
+            complaint TEXT NOT NULL,
+            status TEXT DEFAULT 'open'
         )
         ''')
 
@@ -100,10 +104,43 @@ def get_tickets(category):
 
     # Convert to JSON-friendly format
     tickets_list = [
-        {"id": row[0], "name": row[1], "unit": row[2], "details": row[3:], "status": "Pending"}
+        {"id": row[0], "name": row[1], "unit": row[2], "details": row[3:], "status": row[4]}
         for row in tickets
     ]
     return jsonify(tickets_list)
+
+# Route to mark tickets as resolved
+@app.route('/resolveTicket', methods=['POST'])
+def resolve_ticket():
+    data = request.json
+    ticket_id = data.get('id')
+    category = data.get('category')
+
+    # Map category to table name
+    table_mapping = {
+        "maintenance": "maintenance_requests",
+        "amenities": "amenities_reservations",
+        "complaints": "complaints",
+        "parking": "parking_permits"
+    }
+
+    if category not in table_mapping:
+        return jsonify({"error": "Invalid category"}), 400
+
+    connection = sqlite3.connect('database.db')
+    cursor = connection.cursor()
+
+    # Update the status to 'resolved'
+    table_name = table_mapping[category]
+    cursor.execute(f'''
+        UPDATE {table_name}
+        SET status = 'resolved'
+        WHERE id = ?
+    ''', (ticket_id,))
+    connection.commit()
+    connection.close()
+
+    return jsonify({"message": "Ticket marked as resolved!"})
 
 # Other routes for forms
 @app.route('/maintenanceForm', methods=['GET'])
@@ -131,7 +168,6 @@ def submit_maintenance():
     issue = data['issue']
     priority = data['priority']
 
-    print(f"Received: name={name}, unit={unit}, issue={issue}, priority={priority}")  # Debugging log
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
     cursor.execute('''
