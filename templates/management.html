@@ -12,62 +12,64 @@
   <body>
     <h1>Management Portal</h1>
 
-    <!-- Container for tickets -->
-    <div id="tickets-container">
-      <!-- Example ticket layout -->
-      {% for ticket in tickets %}
-      <div class="ticket">
-        <p><strong>Name:</strong> {{ ticket.name }}</p>
-        <p><strong>Unit:</strong> {{ ticket.unit }}</p>
-        <p><strong>Details:</strong> {{ ticket.details }}</p>
-        <p><strong>Priority:</strong> {{ ticket.priority }}</p>
-        <p>
-          <strong>Status:</strong>
-          <span class="status">{{ ticket.status }}</span>
-        </p>
-        <button
-          class="resolve-btn"
-          data-id="{{ ticket.id }}"
-          data-category="{{ ticket.category }}"
-          {% if ticket.status == 'resolved' %} disabled {% endif %}
-        >
-          Mark as Resolved
-        </button>
-      </div>
-      {% endfor %}
-    </div>
+    <!-- Tickets Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Unit</th>
+          <th>Details</th>
+          <th>Priority</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ticket in tickets %}
+        <tr>
+          <td>{{ ticket.name }}</td>
+          <td>{{ ticket.unit }}</td>
+          <td>{{ ticket.details }}</td>
+          <td>{{ ticket.priority }}</td>
+          <td class="status">{{ ticket.status }}</td>
+          <td>
+            <button
+              class="resolve-btn"
+              data-id="{{ ticket.id }}"
+              data-category="{{ ticket.category }}"
+              {% if ticket.status == 'resolved' %} disabled {% endif %}
+            >
+              Mark as Resolved
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 
-    <!-- JavaScript to handle the "Mark as Resolved" functionality -->
+    <!-- JavaScript for Handling Button Clicks -->
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const resolveButtons = document.querySelectorAll('.resolve-btn');
+      document.addEventListener("DOMContentLoaded", () => {
+        const resolveButtons = document.querySelectorAll(".resolve-btn");
 
         resolveButtons.forEach((button) => {
-          button.addEventListener('click', () => {
-            const ticketId = button.getAttribute('data-id');
-            const category = button.getAttribute('data-category');
+          button.addEventListener("click", () => {
+            const ticketId = button.getAttribute("data-id");
+            const category = button.getAttribute("data-category");
 
-            fetch('/resolveTicket', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
+            fetch("/resolveTicket", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ id: ticketId, category: category }),
             })
-              .then((response) => {
-                if (!response.ok) {
-                  throw new Error('Network response was not ok');
-                }
-                return response.json();
-              })
+              .then((response) => response.json())
               .then((data) => {
                 alert(data.message);
-                button.parentElement.querySelector('.status').innerText =
-                  'resolved';
-                button.disabled = true; // Disable the button after resolving
+                button.closest("tr").querySelector(".status").innerText =
+                  "resolved";
+                button.disabled = true; // Disable the button
               })
-              .catch((error) => {
-                console.error('Error:', error);
-                alert('Failed to resolve ticket. Please try again.');
-              });
+              .catch((error) => console.error("Error:", error));
           });
         });
       });
