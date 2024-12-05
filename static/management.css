@@ -72,3 +72,60 @@ button.resolve-btn:disabled {
 table tr:hover {
   background-color: #f9f9f9;
 }
+
+/* Ensure tables have uniform column widths */
+table {
+  table-layout: fixed; /* Ensures consistent column widths */
+  width: 100%; /* Use full width of the container */
+  border-collapse: collapse; /* Collapse borders for cleaner appearance */
+}
+
+/* Maintain consistent widths across all tables */
+table th,
+table td {
+  border: 1px solid #ddd; /* Match existing border styles */
+  padding: 10px; /* Consistent padding */
+  text-align: left; /* Keep text left-aligned */
+  vertical-align: middle; /* Center vertically within cells */
+}
+
+/* Adjust column widths for specific fields */
+table th:nth-child(1),
+table td:nth-child(1) {
+  width: 15%; /* Name column */
+}
+
+table th:nth-child(2),
+table td:nth-child(2) {
+  width: 10%; /* Unit column */
+}
+
+table th:nth-child(3),
+table td:nth-child(3) {
+  width: 35%; /* Details column */
+}
+
+table th:nth-child(4),
+table td:nth-child(4) {
+  width: 15%; /* Priority or Reservation Date */
+}
+
+table th:nth-child(5),
+table td:nth-child(5) {
+  width: 10%; /* Status */
+}
+
+table th:nth-child(6),
+table td:nth-child(6) {
+  width: 15%; /* Actions */
+}
+
+/* Ensure no overlapping text in cells */
+table td {
+  word-wrap: break-word; /* Break long text into multiple lines if necessary */
+}
+
+/* Retain hover effects and background colors */
+table tr:hover {
+  background-color: #f9f9f9; /* Optional: lighter hover background */
+}
