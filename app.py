@@ -132,6 +132,21 @@ def complaintsForm():
     return render_template('complaints.html')
 
 # Routes for submitting forms
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        
+        # Simple authentication logic (replace with your logic)
+        if email == 'admin@example.com' and password == 'password':
+            return render_template('index.html')
+        else:
+            return "Invalid credentials, please try again!", 401
+
+    # Render login page for GET requests
+    return render_template('login.html')
+
 @app.route('/submitMaintenance', methods=['POST'])
 def submit_maintenance():
     data = request.form
