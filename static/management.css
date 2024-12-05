@@ -1,53 +1,74 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-  background-color: #f4f4f9;
-}
-
-h1 {
-  color: #333;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
+/* Style for all tables */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin: 20px auto;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  text-align: left; /* Align text to the left for consistency */
 }
 
-thead {
-  background-color: #20c997;
-  color: white;
-}
-
-th,
-td {
-  padding: 10px 15px;
+/* Style for table headers */
+table th {
   border: 1px solid #ddd;
-  text-align: left;
+  padding: 10px;
+  background-color: #f4f4f4;
+  text-align: left; /* Align header text to the left */
 }
 
-tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
+/* Style for table rows */
+table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  vertical-align: middle; /* Vertically center content */
 }
 
-.status {
-  font-weight: bold;
+/* Set specific column widths */
+table th:nth-child(1),
+table td:nth-child(1) {
+  width: 15%; /* Adjust for 'Name' column */
 }
 
-.resolve-btn {
-  background-color: #28a745;
+table th:nth-child(2),
+table td:nth-child(2) {
+  width: 10%; /* Adjust for 'Unit' column */
+}
+
+table th:nth-child(3),
+table td:nth-child(3) {
+  width: 30%; /* Adjust for 'Details' or 'Amenity' */
+}
+
+table th:nth-child(4),
+table td:nth-child(4) {
+  width: 15%; /* Adjust for 'Reservation Date' or 'Priority' */
+}
+
+table th:nth-child(5),
+table td:nth-child(5) {
+  width: 10%; /* Adjust for 'Status' */
+}
+
+table th:nth-child(6),
+table td:nth-child(6) {
+  width: 20%; /* Adjust for 'Actions' */
+}
+
+/* Styling for 'Mark as Resolved' button */
+button.resolve-btn {
+  background-color: #4caf50;
   color: white;
-  padding: 5px 10px;
   border: none;
-  border-radius: 4px;
+  padding: 8px 12px;
   cursor: pointer;
+  border-radius: 5px;
 }
 
-.resolve-btn:disabled {
-  background-color: #aaa;
+button.resolve-btn:disabled {
+  background-color: #ddd;
+  color: #aaa;
   cursor: not-allowed;
+}
+
+/* Add a hover effect to rows for better visibility */
+table tr:hover {
+  background-color: #f9f9f9;
 }
