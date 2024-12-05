@@ -12,20 +12,21 @@
   <body>
     <h1>Management Portal</h1>
 
-    <!-- Tickets Table -->
+    <!-- Maintenance Requests -->
+    <h2>Maintenance Requests</h2>
     <table>
       <thead>
         <tr>
           <th>Name</th>
           <th>Unit</th>
-          <th>Details</th>
+          <th>Issue</th>
           <th>Priority</th>
           <th>Status</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        {% for ticket in tickets %}
+        {% for ticket in tickets if ticket.category == 'maintenance_requests' %}
         <tr>
           <td>{{ ticket.name }}</td>
           <td>{{ ticket.unit }}</td>
@@ -36,7 +37,115 @@
             <button
               class="resolve-btn"
               data-id="{{ ticket.id }}"
-              data-category="{{ ticket.category }}"
+              data-category="maintenance_requests"
+              {% if ticket.status == 'resolved' %} disabled {% endif %}
+            >
+              Mark as Resolved
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- Amenities Reservations -->
+    <h2>Amenities Reservations</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Unit</th>
+          <th>Amenity</th>
+          <th>Reservation Date</th>
+          <th>Reservation Time</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ticket in tickets if ticket.category == 'amenities_reservations' %}
+        <tr>
+          <td>{{ ticket.name }}</td>
+          <td>{{ ticket.unit }}</td>
+          <td>{{ ticket.details }}</td>
+          <td>{{ ticket.priority }}</td>
+          <td class="status">{{ ticket.status }}</td>
+          <td>
+            <button
+              class="resolve-btn"
+              data-id="{{ ticket.id }}"
+              data-category="amenities_reservations"
+              {% if ticket.status == 'resolved' %} disabled {% endif %}
+            >
+              Mark as Resolved
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- Parking Permits -->
+    <h2>Parking Permits</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Unit</th>
+          <th>Vehicle Model</th>
+          <th>Vehicle Plate</th>
+          <th>Permit Type</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ticket in tickets if ticket.category == 'parking_permits' %}
+        <tr>
+          <td>{{ ticket.name }}</td>
+          <td>{{ ticket.unit }}</td>
+          <td>{{ ticket.details }}</td>
+          <td>{{ ticket.priority }}</td>
+          <td class="status">{{ ticket.status }}</td>
+          <td>
+            <button
+              class="resolve-btn"
+              data-id="{{ ticket.id }}"
+              data-category="parking_permits"
+              {% if ticket.status == 'resolved' %} disabled {% endif %}
+            >
+              Mark as Resolved
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- Complaints -->
+    <h2>Complaints</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Unit</th>
+          <th>Complaint</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ticket in tickets if ticket.category == 'complaints' %}
+        <tr>
+          <td>{{ ticket.name }}</td>
+          <td>{{ ticket.unit }}</td>
+          <td>{{ ticket.details }}</td>
+          <td class="status">{{ ticket.status }}</td>
+          <td>
+            <button
+              class="resolve-btn"
+              data-id="{{ ticket.id }}"
+              data-category="complaints"
               {% if ticket.status == 'resolved' %} disabled {% endif %}
             >
               Mark as Resolved
