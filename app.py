@@ -3,6 +3,7 @@ from flask_cors import CORS
 import sqlite3
 import os
 
+# Initialize Flask app and enable CORS for cross-origin resource sharing
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
@@ -10,10 +11,11 @@ CORS(app)  # Enable CORS for all routes
 def setup_database():
     connection = None
     try:
+        # Connect to SQLite database (or create it if it doesn't exist)
         connection = sqlite3.connect('database.db')
         cursor = connection.cursor()
 
-        # Table creation statements
+        # Create table for maintenance requests if it doesn't exist
         cursor.execute('''
         CREATE TABLE IF NOT EXISTS maintenance_requests (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -24,6 +26,7 @@ def setup_database():
         )
         ''')
 
+        # Create table for amenities reservations
         cursor.execute('''
         CREATE TABLE IF NOT EXISTS amenities_reservations (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -36,6 +39,7 @@ def setup_database():
         )
         ''')
 
+        # Create table for parking permits
         cursor.execute('''
         CREATE TABLE IF NOT EXISTS parking_permits (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -47,6 +51,7 @@ def setup_database():
         )
         ''')
 
+        # Create table for complaints
         cursor.execute('''
         CREATE TABLE IF NOT EXISTS complaints (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -57,31 +62,33 @@ def setup_database():
         )
         ''')
 
+        # Commit the changes to the database
         connection.commit()
     finally:
         if connection:
+            # Close the database connection to release resources
             connection.close()
 
-# Call the setup_database function before starting the app
+# Call the database setup function before starting the app
 setup_database()
 
-# Home route
+# Define a route for the home page
 @app.route('/')
 def home():
     return "Welcome to the Resident Satisfaction Dashboard!"
 
-# Route to display the management portal
+# Define a route to render the management portal
 @app.route('/management', methods=['GET'])
 def management_portal():
     return render_template('management.html')
 
-# Route to fetch tickets for a specific category
+# Define a route to fetch tickets for a specific category
 @app.route('/getTickets/<category>', methods=['GET'])
 def get_tickets(category):
-    connection = sqlite3.connect('database.db')
+    connection = sqlite3.connect('database.db')  # Connect to the database
     cursor = connection.cursor()
 
-    # Map category to the correct table
+    # Map category names to their respective database tables
     table_mapping = {
         "maintenance": "maintenance_requests",
         "amenities": "amenities_reservations",
@@ -89,32 +96,35 @@ def get_tickets(category):
         "parking": "parking_permits"
     }
 
+    # Handle invalid category requests
     if category not in table_mapping:
         return jsonify({"error": "Invalid category"}), 400
 
+    # Query the database for the specified category
     table_name = table_mapping[category]
     query = f"SELECT * FROM {table_name}"
     cursor.execute(query)
-    tickets = cursor.fetchall()
-    connection.close()
+    tickets = cursor.fetchall()  # Fetch all matching rows
+    connection.close()  # Close the connection
 
-    # Convert to JSON-friendly format
+    # Format the fetched tickets into a JSON-friendly format
     tickets_list = [
         {"id": row[0], "name": row[1], "unit": row[2], "details": row[3:], "status": "Pending"}
         for row in tickets
     ]
     return jsonify(tickets_list)
 
-# Other routes for forms
+# Define a route to render the login page
 @app.route('/login', methods=['GET'])
 def login_page():
     return render_template('login.html')
 
-# Route to display the resident portal (index page)
+# Define a route to render the resident portal (index page)
 @app.route('/index', methods=['GET'])
 def index_page():
     return render_template('index.html')
 
+# Define routes to render forms for different categories
 @app.route('/maintenanceForm', methods=['GET'])
 def maintenance_form():
     return render_template('maintenanceRequest.html')
@@ -138,24 +148,31 @@ def login():
         email = request.form['email']
         password = request.form['password']
         
-        # Simple authentication logic (replace with your logic)
+        # Simple authentication logic (placeholder for a real authentication system)
         if email == 'admin@example.com' and password == 'password':
+            # Redirect to the resident portal (index page) on successful login
             return render_template('index.html')
         else:
+            # Return an error message for invalid credentials
             return "Invalid credentials, please try again!", 401
 
-    # Render login page for GET requests
+    # Render the login page for GET requests
     return render_template('login.html')
 
+# Route to handle submission of maintenance requests
 @app.route('/submitMaintenance', methods=['POST'])
 def submit_maintenance():
+    # Extract form data
     data = request.form
     name = data['name']
     unit = data['unit']
     issue = data['issue']
     priority = data['priority']
 
-    print(f"Received: name={name}, unit={unit}, issue={issue}, priority={priority}")  # Debugging log
+    # Debugging log to verify received data
+    print(f"Received: name={name}, unit={unit}, issue={issue}, priority={priority}")
+
+    # Insert the data into the maintenance_requests table
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
     cursor.execute('''
@@ -165,10 +182,13 @@ def submit_maintenance():
     connection.commit()
     connection.close()
 
+    # Return a success message as JSON
     return jsonify({'message': 'Maintenance request submitted successfully!'})
 
+# Route to handle submission of amenities reservations
 @app.route('/submitAmenities', methods=['POST'])
 def submit_amenities():
+    # Extract form data
     data = request.form
     name = data['name']
     unit = data['unit']
@@ -177,6 +197,7 @@ def submit_amenities():
     reservation_time = data['reservation_time']
     notes = data['notes']
 
+    # Insert the data into the amenities_reservations table
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
     cursor.execute('''
@@ -186,10 +207,13 @@ def submit_amenities():
     connection.commit()
     connection.close()
 
+    # Return a success message as JSON
     return jsonify({'message': 'Amenities reservation submitted successfully!'})
 
+# Route to handle submission of parking permits
 @app.route('/submitParkingPermit', methods=['POST'])
 def submit_parking_permit():
+    # Extract form data
     data = request.form
     name = data['name']
     unit = data['unit']
@@ -197,6 +221,7 @@ def submit_parking_permit():
     vehicle_plate = data['vehicle_plate']
     permit_type = data['permit_type']
 
+    # Insert the data into the parking_permits table
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
     cursor.execute('''
@@ -206,16 +231,20 @@ def submit_parking_permit():
     connection.commit()
     connection.close()
 
+    # Return a success message as JSON
     return jsonify({'message': 'Parking permit request submitted successfully!'})
 
+# Route to handle submission of complaints
 @app.route('/submitComplaints', methods=['POST'])
 def submit_complaint():
+    # Extract form data
     data = request.form
     name = data['name']
     unit = data['unit']
     contact = data['contact']
     complaint = data['complaint']
 
+    # Insert the data into the complaints table
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
     cursor.execute('''
@@ -225,7 +254,10 @@ def submit_complaint():
     connection.commit()
     connection.close()
 
+    # Return a success message as JSON
     return jsonify({'message': 'Complaint submitted successfully!'})
 
+# Main block to run the Flask app
 if __name__ == '__main__':
+    # Run the app in debug mode, accessible from all network interfaces
     app.run(debug=True, host='0.0.0.0')
